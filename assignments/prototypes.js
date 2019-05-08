@@ -16,10 +16,10 @@
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
 
-function GameObject(args) {
-    this.createdAt = args.createdAt;
-    this.name = args.name;
-    this.dimensions = args.dimensions;
+function GameObject(props) {
+    this.createdAt = props.createdAt;
+    this.name = props.name;
+    this.dimensions = props.dimensions;
 }
 
 GameObject.prototype.destroy = function() {
@@ -33,9 +33,9 @@ GameObject.prototype.destroy = function() {
   * should inherit destroy() from GameObject's prototype
 */
 
-function CharacterStats(args) {
-    GameObject.call(this, args);
-    this.healthPoints = args.healthPoints;
+function CharacterStats(props) {
+    GameObject.call(this, props);
+    this.healthPoints = props.healthPoints;
 }
 
 CharacterStats.prototype = Object.create(GameObject.prototype);
@@ -59,11 +59,11 @@ CharacterStats.prototype.takeDamage = function(damage = 10) {
   * should inherit takeDamage() from CharacterStats
 */
 
-function Humanoid(args) {
-    CharacterStats.call(this, args);
-    this.team = args.team;
-    this.weapons = args.weapons;
-    this.language = args.language;
+function Humanoid(props) {
+    CharacterStats.call(this, props);
+    this.team = props.team;
+    this.weapons = props.weapons;
+    this.language = props.language;
 }
 
 Humanoid.prototype = Object.create(CharacterStats.prototype);
@@ -137,9 +137,9 @@ console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
 // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
 // * Create two new objects, one a villain and one a hero and fight it out with methods!
-function Hero(args) {
-    this.attack = args.attack;
-    Humanoid.call(this, args);
+function Hero(props) {
+    this.attack = props.attack;
+    Humanoid.call(this, props);
 }
 
 Hero.prototype = Object.create(Humanoid.prototype);
@@ -153,8 +153,8 @@ Hero.prototype.attackEnemy = function(foe) {
     console.log(foe.takeDamage(this.attack.damage));
 };
 
-function Villain(args) {
-    Humanoid.call(this, args);
+function Villain(props) {
+    Humanoid.call(this, props);
 }
 
 Villain.prototype = Object.create(Humanoid.prototype);
