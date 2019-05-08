@@ -20,7 +20,7 @@ console.log(this);
 // code example for Implicit Binding
 
 const obj = {
-    name: "Izuku",
+    name: "Jakub",
     greet() {
         console.log(`Hi! My name is ${this.name}!`);
     }

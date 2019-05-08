@@ -40,8 +40,13 @@ function CharacterStats(args) {
 
 CharacterStats.prototype = Object.create(GameObject.prototype);
 
-CharacterStats.prototype.takeDamage = function() {
-    return `${this.name} took damage.`;
+CharacterStats.prototype.takeDamage = function(damage = 10) {
+    this.healthPoints -= damage;
+    let returnString = `${this.name} took damage.`;
+    if (this.healthPoints <= 0) {
+        returnString += ` They fainted!`;
+    }
+    return returnString;
 };
 
 /*
@@ -132,3 +137,66 @@ console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
 // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
 // * Create two new objects, one a villain and one a hero and fight it out with methods!
+function Hero(args) {
+    this.attack = args.attack;
+    Humanoid.call(this, args);
+}
+
+Hero.prototype = Object.create(Humanoid.prototype);
+
+Hero.prototype.attackEnemy = function(foe) {
+    console.log(
+        `${this.name} uses ${this.attack.name} on ${foe.name} dealing ${
+            this.attack.damage
+        } damage!`
+    );
+    console.log(foe.takeDamage(this.attack.damage));
+};
+
+function Villain(args) {
+    Humanoid.call(this, args);
+}
+
+Villain.prototype = Object.create(Humanoid.prototype);
+
+Villain.prototype.runAway = function() {
+    console.log(`${this.name} tries to run away!`);
+};
+
+const allMight = new Hero({
+    createdAt: new Date(),
+    dimensions: {
+        length: 5,
+        width: 3,
+        height: 10
+    },
+    healthPoints: 1000,
+    name: "All Might",
+    team: "UA",
+    weapons: ["Fists"],
+    language: "Japanese",
+    attack: {
+        name: "Smash",
+        damage: 1000
+    }
+});
+
+const nomu = new Villain({
+    createdAt: new Date(),
+    dimensions: {
+        length: 10,
+        width: 10,
+        height: 10
+    },
+    healthPoints: 10000,
+    name: "Nomu",
+    team: "Villains",
+    weapons: ["Whole Body"],
+    language: "None"
+});
+
+while (true) {
+    allMight.attackEnemy(nomu);
+    if (nomu.healthPoints <= 0) break;
+    nomu.runAway();
+}
